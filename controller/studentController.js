@@ -1,16 +1,19 @@
 // import { students } from "../model/students.js";
 import Student from "../model/students.js"
-const students = [];
+// const students = [];
 
 const getStudents = async (req, res) => {
     const students = await Student.find();
     res.send({students})
 };
 
-const addStudents = (req, res) => {
-    const data = req.body;
-    students.push({ ...data, id: students.length + 1});
-    res.send({message: "Student added!"});
+const addStudent = (req, res) => {
+    // const data = req.body;
+    // students.push({ ...data, id: students.length + 1});
+    // res.send({message: "Student added!", student: newStudent});
+    const student = req.body,
+    const newStudent = await Student.create(student)
+    res.send({message: "Student added!", student :newStudent})
 };
 
 const updateStudent = (req, res) => {
@@ -37,4 +40,4 @@ const deleteStudent = (req, res) => {
     res.send({ message: "Student removed!" });
 };
 
-export {getStudents, addStudents, updateStudent, deleteStudent};
+export {getStudents, addStudent, updateStudent, deleteStudent};
