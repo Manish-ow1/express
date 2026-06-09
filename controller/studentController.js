@@ -7,11 +7,11 @@ const getStudents = async (req, res) => {
     res.send({students})
 };
 
-const addStudent = (req, res) => {
+const addStudent = async(req, res) => {
     // const data = req.body;
     // students.push({ ...data, id: students.length + 1});
     // res.send({message: "Student added!", student: newStudent});
-    const student = req.body,
+    const student = req.body;
     const newStudent = await Student.create(student)
     res.send({message: "Student added!", student :newStudent})
 };
