@@ -43,11 +43,13 @@ const students = await Student.find();
 const registerStudent = async (req, res) => {
     const {name, age, email, password, isEnrolled} = req.body;
     const student = await Student.findOne({ email });
-    // console.log(student)
+    console.log(student);
     if(student){
         return res.status(400).send({error: "Student already exist"});
     }
-    const newStudent = await Student.create({name, age, email, password, isEnrolled})
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
+    const newStudent = await Student.create({name, age, email, password: hashedPassword, isEnrolled})
     res.send({message: "User registered!", student: newStudent})
 }
 
