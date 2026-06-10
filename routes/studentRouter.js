@@ -1,15 +1,16 @@
 import express from "express";
 import{
     getStudents, 
-    addStudent, 
+    // addStudent, 
     updateStudent, 
-    deleteStudent
+    deleteStudent,
+    registerStudent
 } from "../controller/studentController.js"
 
 const router = express.Router();
 
 router.get("/", getStudents);
-router.post("/", addStudent);
+router.post("/", registerStudent);
 router.put("/:id", updateStudent);
 router.delete("/:id", deleteStudent);
 

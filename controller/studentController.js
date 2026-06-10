@@ -3,18 +3,18 @@ import Student from "../model/students.js"
 // const students = [];
 
 const getStudents = async (req, res) => {
-    const students = await Student.find();
+const students = await Student.find();
     res.send({students})
 };
 
-const addStudent = async(req, res) => {
-    // const data = req.body;
-    // students.push({ ...data, id: students.length + 1});
-    // res.send({message: "Student added!", student: newStudent});
-    const student = req.body;
-    const newStudent = await Student.create(student)
-    res.send({message: "Student added!", student :newStudent})
-};
+// const addStudent = async(req, res) => {
+//     // const data = req.body;
+//     // students.push({ ...data, id: students.length + 1});
+//     // res.send({message: "Student added!", student: newStudent});
+//     const student = req.body;
+//     const newStudent = await Student.create(student)
+//     res.send({message: "Student added!", student :newStudent})
+// };
 
 // const updateStudent = (req, res) => {
 //     const id = req.params.id;
@@ -40,7 +40,18 @@ const addStudent = async(req, res) => {
 //     res.send({ message: "Student removed!" });
 // };
 
-const updateStudents = async (req, res) => {
+const registerStudent = async (req, res) => {
+    const {name, age, email, password, isEnrolled} = req.body;
+    const student = await Student.findOne({ email });
+    // console.log(student)
+    if(student){
+        return res.status(400).send({error: "Student already exist"});
+    }
+    const newStudent = await Student.create({name, age, email, password, isEnrolled})
+    res.send({message: "User registered!", student: newStudent})
+}
+
+const updateStudent = async (req, res) => {
     const { id } = req.params;
     const data = req.body;
 
@@ -49,7 +60,7 @@ const updateStudents = async (req, res) => {
   res.send({message: "Student updated successfully", student: updatedStudent});
 };
 
-const deleteStudents = async (req, res) => {
+const deleteStudent = async (req, res) => {
   const { id } = req.params;
   const deletedStudent = await Student.findByIdAndDelete(id);
 
@@ -62,4 +73,4 @@ const deleteStudents = async (req, res) => {
   });
 };
 
-export {getStudents, addStudent, updateStudent, deleteStudent};
+export {getStudents, registerStudent, updateStudent, deleteStudent};

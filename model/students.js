@@ -11,6 +11,10 @@ const studentSchema = new mongoose.Schema({
         reqired: true,
         unique: true
     },
+    password: {
+        type: String,
+        required: true,
+    },
     age: {
         type: Number,
     },
@@ -18,6 +22,9 @@ const studentSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     }
+}, 
+{
+    timestamps: true,
 });
 
 const Student = mongoose.model('Student', studentSchema);
