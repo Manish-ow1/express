@@ -16,28 +16,50 @@ const addStudent = async(req, res) => {
     res.send({message: "Student added!", student :newStudent})
 };
 
-const updateStudent = (req, res) => {
-    const id = req.params.id;
-    const data = req.body;
-    const student = students.find((s) => s.id == id);
-    if(!student){
-        return res.status(404).send({ message: "Student not found!"});
-    }
+// const updateStudent = (req, res) => {
+//     const id = req.params.id;
+//     const data = req.body;
+//     const student = students.findIdAndUpdate((s) => s.id == id);
+//     if(!student){
+//         return res.status(404).send({ message: "Student not found!"});
+//     }
 
-    student.name = data.name || student.name;
-    student.age = data.age || student.age;
-    res.send({ message: "Student Updated"});
+//     student.name = data.name || student.name;
+//     student.age = data.age || student.age;
+//     res.send({ message: "Student Updated"});
+// };
+
+// const deleteStudent = (req, res) => {
+//     const id = req.params.id;
+//     const studentIndex = students.findIndex((s) => s.id == id);
+//     console.log(studentIndex)
+//     if(studentIndex == -1){
+//         return res.status(404).send({ message: "Student not found!"});
+//     }
+//     students.splice(studentIndex, 1);
+//     res.send({ message: "Student removed!" });
+// };
+
+const updateStudents = async (req, res) => {
+    const { id } = req.params;
+    const data = req.body;
+
+     const updatedStudent = await Student.findByIdAndUpdate(id, data, { new: true });
+
+  res.send({message: "Student updated successfully", student: updatedStudent});
 };
 
-const deleteStudent = (req, res) => {
-    const id = req.params.id;
-    const studentIndex = students.findIndex((s) => s.id == id);
-    console.log(studentIndex)
-    if(studentIndex == -1){
-        return res.status(404).send({ message: "Student not found!"});
-    }
-    students.splice(studentIndex, 1);
-    res.send({ message: "Student removed!" });
+const deleteStudents = async (req, res) => {
+  const { id } = req.params;
+  const deletedStudent = await Student.findByIdAndDelete(id);
+
+  if (!deletedStudent) {
+    return res.status(404).send({ message: "Student not found" });
+  }
+  res.send({
+    message: "Student deleted successfully",
+    student: deletedStudent
+  });
 };
 
 export {getStudents, addStudent, updateStudent, deleteStudent};
